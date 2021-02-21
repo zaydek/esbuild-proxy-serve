@@ -1,22 +1,21 @@
 const esbuild = require("esbuild")
 const http = require("http")
-const path = require("path")
+const p = require("path")
 
 // The port the user sees and the port esbuild uses.
 const userPort = 3000
 const esbuildPort = userPort + 10
 
 // spaify converts a URL for SPA-mode.
-function spaify(url) {
-	const parts = url.split(":" + userPort)
-	return parts[0]
+function spaify(path) {
+	return "/"
 }
 
 // ssgify converts a URL for SSG-mode.
-function ssgify(url) {
-	if (url.endsWith("/")) return url + "index.html"
-	if (path.extname(url) === "") return url + ".html"
-	return url
+function ssgify(path) {
+	if (path.endsWith("/")) return path + "index.html"
+	if (p.extname(path) === "") return path + ".html"
+	return path
 }
 
 // The proxy server.
